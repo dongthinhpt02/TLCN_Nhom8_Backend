@@ -1,36 +1,33 @@
-import { Module } from '@nestjs/common';
+import {MiddlewareConsumer, Module,  } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt.strategy';
-import { UsersModule } from '../users/users.module'; 
-import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from 'src/schemas/users.schema';
-import { Token, TokenSchema } from 'src/schemas/token.schema';
-import { Cart, CartSchema } from 'src/schemas/cart.schema';
+import { JwtModule } from 'src/jwt/jwt.module';
+import { JwtService } from 'src/jwt/jwt.service';
+import { DatabaseService } from 'src/database/database.service';
+import { DaysModule } from 'src/days/days.module';
+import { DatabaseModule } from 'src/database/database.module';
+import { DaysService } from 'src/days/days.service';
+import { GoogleStrategy } from './google.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { SessionSerializer } from './Serializer';
+import { VerifyAccessTokenMiddleware, VerifyRefreshTokenMiddleware } from 'src/middleware/auth.middleware';
+
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      {
-        name: User.name,
-        schema: UserSchema
-      },
-      {
-        name : Token.name,
-        schema : TokenSchema
-      },
-      {
-        name : Cart.name,
-        schema : CartSchema
-      },
-    ]),
-    JwtModule.register({
-      secret: process.env.JWT_ACCESS_SECRET || 'nhuomdotroiau', // Đặt secret key của bạn ở đây
-      signOptions: { expiresIn: '1h' }, // Thời gian hết hạn token
-    }),
+  imports: [DaysModule, JwtModule, DatabaseModule,
+    PassportModule.register({ session: true }),
   ],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService, JwtService, DatabaseService, DaysService, GoogleStrategy, SessionSerializer],
+  exports: [AuthService]
 })
-export class AuthModule {}
+export class AuthModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(VerifyRefreshTokenMiddleware)
+      .forRoutes('auth/logout'); 
+    consumer
+      .apply(VerifyRefreshTokenMiddleware)
+      .forRoutes('auth/refresh_refreshToken');
+  }
+}

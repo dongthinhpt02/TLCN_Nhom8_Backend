@@ -1,27 +1,39 @@
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 import { Gender } from "src/enum/enum.gender.user";
 import { Role } from "src/enum/enum.role.user";
 import { Status } from "src/enum/enum.status.user";
+import {ObjectId} from 'mongodb'
 
 export class CreateTokenDTO {
     @IsString()
     @IsOptional()
-    tokenId: string;
+    _id: ObjectId;
+
+    @IsString()
+    @IsOptional()
+    user_id : ObjectId;
 
     @IsString()
     @IsOptional()
     refreshToken: string;
 
+    @Type(() => Date) 
+    @Transform(() => new Date(), { toClassOnly: true })
     @IsDate()
     @IsOptional()
-    expired: Date;
+    createdAt?: Date = new Date();
+    
 }
 
 export class CreateCartDTO {
     @IsString()
     @IsOptional()
-    cartId: string;
+    _id: ObjectId;
+
+    @IsString()
+    @IsOptional()
+    user_id : ObjectId;
 
     @IsNumber()
     @IsOptional()
@@ -35,7 +47,7 @@ export class CreateCartDTO {
 export class CreateUserDTO {
     @IsOptional()
     @IsString()
-    userId: string;
+    _id: ObjectId;
 
     @IsString()
     fullname: string;
@@ -73,4 +85,20 @@ export class CreateUserDTO {
     @IsOptional()
     @ValidateNested()
     cart: CreateCartDTO;
+
+    @Type(() => Date) 
+    @Transform(() => new Date(), { toClassOnly: true }) 
+    @IsDate()
+    @IsOptional()
+    createdAt?: Date = new Date();
+
+    @Type(() => Date) 
+    @IsDate()
+    @IsOptional()
+    updatedAt?: Date;
+
+    @Type(() => Date) 
+    @IsDate()
+    @IsOptional()
+    deletedAt?: Date;
 }

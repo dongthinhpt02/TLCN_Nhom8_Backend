@@ -1,15 +1,9 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Transform } from 'class-transformer';
+import { ObjectId} from 'mongodb';
 
-@Schema()
-export class Token{
-    @Prop({require : true, unique : true})
-    tokenId : string
-
-    @Prop({require : false})
-    refreshToken : string
-
-    @Prop({required : false})
-    expired : Date
-
+class Token {
+  _id: ObjectId;
+  user_id : ObjectId;
+  refreshToken: string;
+  createdAt?: Date = new Date();
 }
-export const TokenSchema = SchemaFactory.createForClass(Token); 
