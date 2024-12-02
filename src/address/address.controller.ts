@@ -75,6 +75,16 @@ export class AddressController {
         return this.addressService.getAllAddress();
     }
 
+    @Get('addressbyuser/:id')
+    @UsePipes(new ValidationPipe())
+    async getAddressByUser(@Param('id') id: string,
+        @Headers('Authorization') authorization: string) {
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        return this.addressService.getAllAddressByUserId(id);
+    }
+
     @Get('search')
     @UsePipes(new ValidationPipe())
     async searchAddress(@Headers('Authorization') authorization: string,

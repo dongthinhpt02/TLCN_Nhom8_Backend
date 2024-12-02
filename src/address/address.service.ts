@@ -91,6 +91,17 @@ export class AddressService {
             throw new CustomException(error.message);
         }
     }
+    async getAllAddressByUserId(id : string) {
+        try {
+            const db = this.databaseService.getDb();
+            const getAllAddress = await db.collection('address').find({
+                user_id : new ObjectId(id)
+            }).toArray(); // Chuyển Cursor thành mảng
+            return getAllAddress;
+        } catch (error) {
+            throw new CustomException(error.message);
+        }
+    }
     async getAddressByKeyword(keyword: string) {
         try {
             const db = this.databaseService.getDb();
