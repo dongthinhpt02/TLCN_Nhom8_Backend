@@ -35,7 +35,10 @@ export class VerifyRefreshTokenMiddleware implements NestMiddleware {
             req.user = decoded;
             next();
         } catch (err) {
-            throw new UnauthorizedException('Invalid or expired token');
+            throw {
+                statusCode: HttpStatus.UNAUTHORIZED,
+                message: 'Invalid or expired token'
+            }
         }
     }
 }
@@ -59,7 +62,10 @@ export class VerifyAccessTokenMiddleware implements NestMiddleware {
             req.user = decoded;
             next();
         } catch (err) {
-            throw new UnauthorizedException('Invalid or expired token');
+            throw {
+                statusCode: HttpStatus.UNAUTHORIZED,
+                message: 'Invalid or expired token'
+            }
         }
     }
 }

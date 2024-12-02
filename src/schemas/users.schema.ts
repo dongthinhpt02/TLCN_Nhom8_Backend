@@ -9,7 +9,8 @@ export class User {
   email: string;       
   password: string;    
   gender: Gender;       
-  dateOfBirth: Date;   
+  dateOfBirth: Date;
+  phoneNumber : string;   
   role: string;         
   status: Status;
   createdAt?: Date = new Date();

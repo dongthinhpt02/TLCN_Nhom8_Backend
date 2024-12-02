@@ -73,6 +73,9 @@ export class CreateUserDTO {
     @IsDate()
     dateOfBirth: Date;
 
+    @IsString()
+    phoneNumber : String
+
     @Type(() => Number)
     @IsEnum(Status)
     @IsOptional()
@@ -87,10 +90,9 @@ export class CreateUserDTO {
     cart: CreateCartDTO;
 
     @Type(() => Date) 
-    @Transform(() => new Date(), { toClassOnly: true }) 
     @IsDate()
     @IsOptional()
-    createdAt?: Date = new Date();
+    createdAt?: Date;
 
     @Type(() => Date) 
     @IsDate()
