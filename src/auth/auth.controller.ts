@@ -51,9 +51,5 @@ export class AuthController {
         return this.authService.googleLogin(req.user);
     }
 
-    @Get('profile')
-    @UseGuards(JwtStrategy)
-    getProfile(@Req() req) {
-        return req.user;
-    }
+   
 }

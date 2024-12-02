@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb'
 import { DatabaseService } from 'src/database/database.service';
+import { CustomException } from 'src/exception/CustomException';
 
 @Injectable()
 export class JwtService {
@@ -16,18 +17,23 @@ export class JwtService {
     return new Promise<string>((resolve, reject) => {
       jwt.sign(payload, pk, options, (error, token) => {
         if (error) {
-          reject(new UnauthorizedException('Signing Fail'));
+          reject(new CustomException('Signing Fail'));
         }
         resolve(token!);
       });
     });
+  }
+  async decodeToken(token: string, options: jwt.DecodeOptions = {}): Promise<any> {
+    return jwt.decode(token, options);
   }
 
   async verifyToken(token: string, pk: string = this.secret, options: jwt.VerifyOptions = {}): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       jwt.verify(token, pk, options, (error, decoded) => {
         if (error) {
-          reject(new UnauthorizedException('Invalid Token'));
+          reject(
+            
+            new CustomException('Invalid Token'));
         }
         resolve(decoded);
       });

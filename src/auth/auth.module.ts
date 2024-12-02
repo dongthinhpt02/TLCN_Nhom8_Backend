@@ -14,11 +14,11 @@ import { VerifyAccessTokenMiddleware, VerifyRefreshTokenMiddleware } from 'src/m
 
 
 @Module({
-  imports: [DaysModule, JwtModule, DatabaseModule,
+  imports: [JwtModule, DatabaseModule,
     PassportModule.register({ session: true }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtService, DatabaseService, DaysService, GoogleStrategy, SessionSerializer],
+  providers: [AuthService, JwtService, DatabaseService, GoogleStrategy, SessionSerializer],
   exports: [AuthService]
 })
 export class AuthModule {
