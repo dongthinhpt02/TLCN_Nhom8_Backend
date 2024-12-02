@@ -55,15 +55,6 @@ export class AuthService {
     }
   }
 
-  async getUserIdFromAccessToken(accessToken: string): Promise<string> {
-    try {
-      const decoded = await this.jwtService.verifyToken(accessToken);
-      return decoded.payload.user_id;
-    } catch (error) {
-      new CustomException(error.message);
-    }
-  }
-
   async register(createUserDto: CreateUserDTO) {
     try {
       const db = this.databaseService.getDb();
