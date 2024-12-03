@@ -9,6 +9,7 @@ class ProductItem {
   productItemName : string;
   price : number;
   quantity : number;
+  description : string;
   imgProductItem : string;
   status : Status;
   createdAt?: Date = new Date();

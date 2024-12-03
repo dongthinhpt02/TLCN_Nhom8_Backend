@@ -4,7 +4,6 @@ import { CreateAddressDTO } from 'src/DTOs/CreateAddress.dto';
 import { Status } from 'src/enum/enum.status.user';
 import { ObjectId } from 'mongodb';
 import { CustomException } from 'src/exception/CustomException';
-import { find } from 'rxjs';
 
 @Injectable()
 export class AddressService {
@@ -19,7 +18,7 @@ export class AddressService {
                 status,
                 createdAt: new Date(),
                 updatedAt: null,
-                deleteAt: null,
+                deletedAt: null,
             };
             await db.collection('address').insertOne(newAddress);
             return newAddress;
@@ -51,7 +50,8 @@ export class AddressService {
                 { _id: new ObjectId(id) },
                 {
                     $set: {
-                        status : Status.INACTIVE
+                        status : Status.INACTIVE,
+                        deletedAt : new Date()
                     }
                 },
             );
@@ -96,7 +96,19 @@ export class AddressService {
             const db = this.databaseService.getDb();
             const getAllAddress = await db.collection('address').find({
                 user_id : new ObjectId(id)
-            }).toArray(); // Chuyển Cursor thành mảng
+            }).toArray(); 
+            return getAllAddress;
+        } catch (error) {
+            throw new CustomException(error.message);
+        }
+    }
+    async getAllAddressByUserIdAndActive(id : string) {
+        try {
+            const db = this.databaseService.getDb();
+            const getAllAddress = await db.collection('address').find({
+                user_id : new ObjectId(id),
+                status : Status.ACTIVE
+            }).toArray(); 
             return getAllAddress;
         } catch (error) {
             throw new CustomException(error.message);
@@ -110,6 +122,7 @@ export class AddressService {
                     { address: { $regex: keyword, $options: 'i' } },
                     { user_id: { $regex: keyword, $options: 'i' } },
                 ],
+                
             };
 
             const results = await db.collection('address').find(filter).toArray();

@@ -20,6 +20,29 @@ import { AuthController } from './auth/auth.controller';
 import { AddressService } from './address/address.service';
 import { AddressController } from './address/address.controller';
 import { AddressModule } from './address/address.module';
+import { BrandService } from './brand/brand.service';
+import { BrandModule } from './brand/brand.module';
+import { CategoryService } from './category/category.service';
+import { CategoryController } from './category/category.controller';
+import { CategoryModule } from './category/category.module';
+import { SizeService } from './size/size.service';
+import { SizeController } from './size/size.controller';
+import { SizeModule } from './size/size.module';
+import { ColorService } from './color/color.service';
+import { ColorController } from './color/color.controller';
+import { ColorModule } from './color/color.module';
+import { NewsService } from './news/news.service';
+import { NewsController } from './news/news.controller';
+import { NewsModule } from './news/news.module';
+import { PromotionService } from './promotion/promotion.service';
+import { PromotionController } from './promotion/promotion.controller';
+import { PromotionModule } from './promotion/promotion.module';
+import { ProductService } from './product/product.service';
+import { ProductController } from './product/product.controller';
+import { ProductModule } from './product/product.module';
+import { ProductitemService } from './productitem/productitem.service';
+import { ProductitemController } from './productitem/productitem.controller';
+import { ProductitemModule } from './productitem/productitem.module';
 
 @Module({
   imports: 
@@ -32,9 +55,17 @@ import { AddressModule } from './address/address.module';
     DatabaseModule,
     ImageKitModule,
     AddressModule,
+    BrandModule,
+    CategoryModule,
+    SizeModule,
+    ColorModule,
+    NewsModule,
+    PromotionModule,
+    ProductModule,
+    ProductitemModule,
   ],
-  controllers: [AppController, JwtController, ImageKitController, AuthController, AddressController],
-  providers: [AppService, JwtService, ImageKitService, DatabaseService, DaysService, AddressService],
+  controllers: [AppController, JwtController, ImageKitController, AuthController, AddressController, CategoryController, SizeController, ColorController, NewsController, PromotionController, ProductController, ProductitemController],
+  providers: [AppService, JwtService, ImageKitService, DatabaseService, DaysService, AddressService, BrandService, CategoryService, SizeService, ColorService, NewsService, PromotionService, ProductService, ProductitemService],
   exports: [DatabaseService, JwtService]
 })
 export class AppModule {}

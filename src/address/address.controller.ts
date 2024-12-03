@@ -5,6 +5,7 @@ import { CreateAddressDTO } from 'src/DTOs/CreateAddress.dto';
 import { ObjectId } from 'mongodb';
 import { Status } from 'src/enum/enum.status.user';
 import { CustomException } from 'src/exception/CustomException';
+import { authorize } from 'passport';
 
 @Controller('address')
 export class AddressController {
@@ -84,6 +85,16 @@ export class AddressController {
         }
         return this.addressService.getAllAddressByUserId(id);
     }
+
+    @Get('activeaddressbyuser:/id')
+    @UsePipes(new ValidationPipe())
+    async getActiveAddressByUser(@Param('id') id: string,
+        @Headers('Authorization') authorization : string){
+            if (!authorization || !authorization.startsWith('Bearer ')) {
+                throw new CustomException('Authorization header is missing or invalid');
+            }
+            return this.addressService.getAllAddressByUserIdAndActive(id);
+        }
 
     @Get('search')
     @UsePipes(new ValidationPipe())
