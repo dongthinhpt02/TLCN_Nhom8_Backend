@@ -19,11 +19,12 @@ export class LockingproductitemService {
                 expiredAt : expire
             }
             await db.collection('lockingproduct').insertOne(newLocking);
+            return newLocking;
         } catch (error) {
             throw new CustomException(error.message)
         }
     }
     async deleteLockProductItem(id : string){
-        
+
     }
 }

@@ -16,6 +16,10 @@ export class CreateCartItemDTO {
 
     @IsString()
     @IsOptional()
+    sessionId : ObjectId
+
+    @IsString()
+    @IsOptional()
     productItemName : string
 
     @IsNumber()
@@ -33,4 +37,17 @@ export class CreateCartItemDTO {
     @IsString()
     @IsOptional()
     totalPriceCartItem : number
+}
+export class CartItem{
+    @IsString()
+    @IsOptional()
+    cartId : ObjectId
+
+    @IsString()
+    @IsOptional()
+    productItemId : ObjectId
+
+    @IsNumber()
+    @IsOptional()
+    quantity : number
 }

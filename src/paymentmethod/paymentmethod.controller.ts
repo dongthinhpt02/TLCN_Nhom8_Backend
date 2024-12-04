@@ -10,7 +10,7 @@ export class PaymentmethodController {
 
     @Post('create')
     @UsePipes(new ValidationPipe())
-    async createNews(@Headers('Authorization') authorization: string,
+    async createPaymentMethod(@Headers('Authorization') authorization: string,
         @Body() createPaymentMethodDTO: CreatePaymentMethodDTO) {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             // throw new UnauthorizedException('Authorization header is missing or invalid');

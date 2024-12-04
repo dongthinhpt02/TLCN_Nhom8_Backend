@@ -236,7 +236,7 @@ export class ProductitemService {
                         quantity: 1,
                         status: 1,
                         brandName: '$brand.brandName', // Lấy thông tin brandName từ mảng brand
-                        country:'$brand.country',
+                        country: '$brand.country',
                         descriptionBrand: '$brand.description',
                         productName: '$product.productName',
                     },
@@ -293,7 +293,7 @@ export class ProductitemService {
     } catch(error) {
         throw new CustomException(error.message);
     }
-    async findProductItemByProductName(keyword : string){
+    async findProductItemByProductName(keyword: string) {
         try {
             const db = this.databaseService.getDb();
             const result = await db.collection('productitem').aggregate([
@@ -328,13 +328,77 @@ export class ProductitemService {
             throw new CustomException(error.message)
         }
     }
-    async getDetailProductItem(id : string){
+    async getDetailProductItem(id: string) {
         try {
+            // const db = this.databaseService.getDb();
+            // const result = await db.collection('productItem').aggregate([
+            //     {
+            //         $match: {
+            //             _id: new ObjectId(id) // Lọc theo productItemId
+            //         }
+            //     },
+            //     {
+            //         $lookup: {
+            //             from: "lockingProductItem", // Tên collection LockingProductItem
+            //             localField: "_id", // Liên kết với _id của ProductItem
+            //             foreignField: "productItemId", // Liên kết đến productItemId trong LockingProductItem
+            //             as: "lockingProductItem" // Tên mảng kết quả
+            //         }
+            //     },
+            //     {
+            //         $addFields: {
+            //             totalLockedQuantity: {
+            //                 $sum: "$lockingProductItem.quantity" // Tính tổng quantity trong lockingItems
+            //             },
+            //             remainingQuantity: {
+            //                 $subtract: ["$quantity", { $sum: "$lockingProductItem.quantity" }] // Trừ quantity từ tổng lockedQuantity
+            //             }
+            //         }
+            //     },
+            //     {
+            //         $project: {
+            //             _id: 1,
+            //             productItemName: 1,
+            //             remainingQuantity: 1
+            //         }
+            //     }
+            // ]).toArray();
+
+            // return result[0];
+            // Lấy thông tin product theo ID
+            const _id = new ObjectId(id);
             const db = this.databaseService.getDb()
-            const getDetailProductItem = await db.collection('productitem').findOne({
-                _id : new ObjectId(id),
-            });
-            return getDetailProductItem;
+            const found = await db.collection('productitem').findOne({ _id });
+            if (!found) {
+                throw new CustomException(`Product with ID ${_id} not found`);
+            }
+
+            // Lấy danh sách các bản ghi lock_product theo category_id
+            let lockingproduct = await db.collection('lockingproduct')
+                .find({ productItemId: _id })
+                .toArray();
+
+            
+            // Lọc ra các bản ghi chưa hết hạn
+            lockingproduct = lockingproduct.filter(
+                (lockingproduct) => new Date(lockingproduct.expiredAt) > new Date(),
+            );
+
+            console.log(lockingproduct)
+
+            // Tính tổng số lượng sản phẩm đang bị lock
+            const lockedQuantity = lockingproduct.reduce(
+                (acc, cur) => acc + cur.quantity,  // Sử dụng `cur.quantity` thay vì `cur.amount`
+                0
+            );
+            
+            
+
+            // Trả về kết quả với số lượng còn lại
+            return {
+                ...found,
+                quantity: found.quantity - lockedQuantity,
+            };
         } catch (error) {
             throw new CustomException(error.message)
         }

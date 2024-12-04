@@ -13,6 +13,10 @@ export class CreateLockingProductItemDTO {
 
     @IsString()
     @IsOptional()
+    userId : ObjectId
+
+    @IsString()
+    @IsOptional()
     orderDetailId : ObjectId
 
     @IsInt()

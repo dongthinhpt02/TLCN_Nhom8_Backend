@@ -52,6 +52,9 @@ import { CartitemModule } from './cartitem/cartitem.module';
 import { LockingproductitemService } from './lockingproductitem/lockingproductitem.service';
 import { LockingproductitemController } from './lockingproductitem/lockingproductitem.controller';
 import { LockingproductitemModule } from './lockingproductitem/lockingproductitem.module';
+import { CartsService } from './carts/carts.service';
+import { CartsController } from './carts/carts.controller';
+import { CartsModule } from './carts/carts.module';
 
 @Module({
   imports: 
@@ -75,9 +78,10 @@ import { LockingproductitemModule } from './lockingproductitem/lockingproductite
     PaymentmethodModule,
     CartitemModule,
     LockingproductitemModule,
+    CartsModule,
   ],
-  controllers: [AppController, JwtController, ImageKitController, AuthController, AddressController, CategoryController, SizeController, ColorController, NewsController, PromotionController, ProductController, ProductitemController, PaymentmethodController, CartitemController, LockingproductitemController],
-  providers: [AppService, JwtService, ImageKitService, DatabaseService, DaysService, AddressService, BrandService, CategoryService, SizeService, ColorService, NewsService, PromotionService, ProductService, ProductitemService, PaymentmethodService, CartitemService, LockingproductitemService],
+  controllers: [AppController, JwtController, ImageKitController, AuthController, AddressController, CategoryController, SizeController, ColorController, NewsController, PromotionController, ProductController, ProductitemController, PaymentmethodController, CartitemController, LockingproductitemController, CartsController],
+  providers: [AppService, JwtService, ImageKitService, DatabaseService, DaysService, AddressService, BrandService, CategoryService, SizeService, ColorService, NewsService, PromotionService, ProductService, ProductitemService, PaymentmethodService, CartitemService, LockingproductitemService, CartsService],
   exports: [DatabaseService, JwtService]
 })
 export class AppModule {}
