@@ -87,4 +87,66 @@ export class ProductitemController {
         }
         return this.productItemService.searchProductItem(keyword);
     }
+
+    @Get('search/color')
+    @UsePipes(new ValidationPipe())
+    async findProductItemByColorName(@Headers('Authorization') authorization: string,
+    @Query('keyword') keyword: string){
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        if (!keyword) {
+            throw new CustomException('Keyword is required');
+        }
+        return this.productItemService.findProductItemByColorName(keyword);
+    }
+    @Get('search/size')
+    @UsePipes(new ValidationPipe())
+    async findProductItemBySizeName(@Headers('Authorization') authorization: string,
+    @Query('keyword') keyword: string){
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        if (!keyword) {
+            throw new CustomException('Keyword is required');
+        }
+        return this.productItemService.findProductItemsBySizeName(keyword);
+    }
+
+    @Get('search/brand')
+    @UsePipes(new ValidationPipe())
+    async findProductItemByBrandName(@Headers('Authorization') authorization: string,
+    @Query('keyword') keyword: string){
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        if (!keyword) {
+            throw new CustomException('Keyword is required');
+        }
+        return this.productItemService.findProductItemByBrandName(keyword);
+    }
+    @Get('search/cate')
+    @UsePipes(new ValidationPipe())
+    async findProductItemByCateName(@Headers('Authorization') authorization: string,
+    @Query('keyword') keyword: string){
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        if (!keyword) {
+            throw new CustomException('Keyword is required');
+        }
+        return this.productItemService.findProductItemByCateName(keyword);
+    }
+    @Get('search/product')
+    @UsePipes(new ValidationPipe())
+    async findProductItemByProductName(@Headers('Authorization') authorization: string,
+    @Query('keyword') keyword: string){
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        if (!keyword) {
+            throw new CustomException('Keyword is required');
+        }
+        return this.productItemService.findProductItemByProductName(keyword);
+    }
 }
