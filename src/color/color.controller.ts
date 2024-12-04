@@ -70,4 +70,13 @@ export class ColorController {
         }
         return this.colorService.getAllActiveColor();
     }
+    @Get('detail/:id')
+    @UsePipes(new ValidationPipe())
+    async getDetailColor(@Param('id') id: string,
+        @Headers('Authorization') authorization: string) {
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        return this.colorService.getDetailColor(id);
+    }
 }

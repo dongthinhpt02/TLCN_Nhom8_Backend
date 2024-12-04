@@ -104,4 +104,15 @@ export class ColorService {
             throw new CustomException(error.message);
         }
     }
+    async getDetailColor(id : string){
+        try {
+            const db = this.databaseService.getDb()
+            const getDetailColor = await db.collection('color').findOne({
+                _id : new ObjectId(id),
+            });
+            return getDetailColor;
+        } catch (error) {
+            throw new CustomException(error.message)
+        }
+    }
 }

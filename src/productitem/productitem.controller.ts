@@ -149,4 +149,13 @@ export class ProductitemController {
         }
         return this.productItemService.findProductItemByProductName(keyword);
     }
+    @Get('detail/:id')
+    @UsePipes(new ValidationPipe())
+    async getDetailProductItem(@Param('id') id: string,
+        @Headers('Authorization') authorization: string) {
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        return this.productItemService.getDetailProductItem(id);
+    }
 }

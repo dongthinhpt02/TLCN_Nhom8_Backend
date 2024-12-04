@@ -104,4 +104,15 @@ export class SizeService {
             throw new CustomException(error.message);
         }
     }
+    async getDetailSize(id : string){
+        try {
+            const db = this.databaseService.getDb()
+            const getDetailSize = await db.collection('size').findOne({
+                _id : new ObjectId(id),
+            });
+            return getDetailSize;
+        } catch (error) {
+            throw new CustomException(error.message)
+        }
+    }
 }

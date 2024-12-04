@@ -43,6 +43,15 @@ import { ProductModule } from './product/product.module';
 import { ProductitemService } from './productitem/productitem.service';
 import { ProductitemController } from './productitem/productitem.controller';
 import { ProductitemModule } from './productitem/productitem.module';
+import { PaymentmethodService } from './paymentmethod/paymentmethod.service';
+import { PaymentmethodController } from './paymentmethod/paymentmethod.controller';
+import { PaymentmethodModule } from './paymentmethod/paymentmethod.module';
+import { CartitemService } from './cartitem/cartitem.service';
+import { CartitemController } from './cartitem/cartitem.controller';
+import { CartitemModule } from './cartitem/cartitem.module';
+import { LockingproductitemService } from './lockingproductitem/lockingproductitem.service';
+import { LockingproductitemController } from './lockingproductitem/lockingproductitem.controller';
+import { LockingproductitemModule } from './lockingproductitem/lockingproductitem.module';
 
 @Module({
   imports: 
@@ -63,9 +72,12 @@ import { ProductitemModule } from './productitem/productitem.module';
     PromotionModule,
     ProductModule,
     ProductitemModule,
+    PaymentmethodModule,
+    CartitemModule,
+    LockingproductitemModule,
   ],
-  controllers: [AppController, JwtController, ImageKitController, AuthController, AddressController, CategoryController, SizeController, ColorController, NewsController, PromotionController, ProductController, ProductitemController],
-  providers: [AppService, JwtService, ImageKitService, DatabaseService, DaysService, AddressService, BrandService, CategoryService, SizeService, ColorService, NewsService, PromotionService, ProductService, ProductitemService],
+  controllers: [AppController, JwtController, ImageKitController, AuthController, AddressController, CategoryController, SizeController, ColorController, NewsController, PromotionController, ProductController, ProductitemController, PaymentmethodController, CartitemController, LockingproductitemController],
+  providers: [AppService, JwtService, ImageKitService, DatabaseService, DaysService, AddressService, BrandService, CategoryService, SizeService, ColorService, NewsService, PromotionService, ProductService, ProductitemService, PaymentmethodService, CartitemService, LockingproductitemService],
   exports: [DatabaseService, JwtService]
 })
 export class AppModule {}

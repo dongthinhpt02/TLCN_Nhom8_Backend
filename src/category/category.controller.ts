@@ -71,6 +71,15 @@ export class CategoryController {
         }
         return this.categoryService.getAllActiveCate();
     }
+    @Get('detail/:id')
+    @UsePipes(new ValidationPipe())
+    async getDetailCate(@Param('id') id: string,
+        @Headers('Authorization') authorization: string) {
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        return this.categoryService.getDetailCate(id);
+    }
     @Get('search')
     @UsePipes(new ValidationPipe())
     async searchBrand(@Headers('Authorization') authorization: string,

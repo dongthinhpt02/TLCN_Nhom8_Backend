@@ -103,4 +103,15 @@ export class PromotionService {
             throw new CustomException(error.message);
         }
     }
+    async getDetailPromotion(id : string){
+        try {
+            const db = this.databaseService.getDb()
+            const getDetailPromotion = await db.collection('promotion').findOne({
+                _id : new ObjectId(id),
+            });
+            return getDetailPromotion;
+        } catch (error) {
+            throw new CustomException(error.message)
+        }
+    }
 }

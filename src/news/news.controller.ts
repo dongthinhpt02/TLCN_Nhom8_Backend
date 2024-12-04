@@ -71,4 +71,13 @@ export class NewsController {
         }
         return this.newsService.getAllActiveNews();
     }
+    @Get('detail/:id')
+    @UsePipes(new ValidationPipe())
+    async getDetailNews(@Param('id') id: string,
+        @Headers('Authorization') authorization: string) {
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        return this.newsService.getDetailNews(id);
+    }
 }

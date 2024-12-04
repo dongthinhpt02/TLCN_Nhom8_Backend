@@ -47,7 +47,7 @@ export class BrandController {
     }
     @Post('lock/:id')
     @UsePipes(new ValidationPipe())
-    async lockAddress(@Param('id') id: string,
+    async lockBrand(@Param('id') id: string,
         @Headers('Authorization') authorization: string) {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             throw new CustomException('Authorization header is missing or invalid');
@@ -56,7 +56,7 @@ export class BrandController {
     }
     @Post('restore/:id')
     @UsePipes(new ValidationPipe())
-    async restoreAddress(@Param('id') id: string,
+    async restoreBrand(@Param('id') id: string,
         @Headers('Authorization') authorization: string) {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             throw new CustomException('Authorization header is missing or invalid');
@@ -81,6 +81,15 @@ export class BrandController {
         return this.brandService.getAllActiveBrand();
     }
 
+    @Get('detail/:id')
+    @UsePipes(new ValidationPipe())
+    async getDetailBrand(@Param('id') id: string,
+        @Headers('Authorization') authorization: string) {
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            throw new CustomException('Authorization header is missing or invalid');
+        }
+        return this.brandService.getDetailBrand(id);
+    }
     @Get('search')
     @UsePipes(new ValidationPipe())
     async searchBrand(@Headers('Authorization') authorization: string,

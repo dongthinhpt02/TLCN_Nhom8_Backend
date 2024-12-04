@@ -1,82 +1,84 @@
 import { Controller, Post, UsePipes, ValidationPipe, Headers, Body, Param, Get } from '@nestjs/common';
-import { SizeService } from './size.service';
-import { CreateSizeDTO } from 'src/DTOs/CreateSize.dto';
+import { PaymentmethodService } from './paymentmethod.service';
+import { CreatePaymentMethodDTO } from 'src/DTOs/CreatePaymentMethod.dto';
 import { CustomException } from 'src/exception/CustomException';
 import { ObjectId } from 'mongodb';
 
-@Controller('size')
-export class SizeController {
-    constructor(private readonly sizeService: SizeService) {
-    }
+@Controller('paymentmethod')
+export class PaymentmethodController {
+    constructor(private readonly paymentmethodService : PaymentmethodService){}
+
     @Post('create')
     @UsePipes(new ValidationPipe())
-    async createSize(@Headers('Authorization') authorization: string,
-        @Body() createSizeDTO: CreateSizeDTO) {
+    async createNews(@Headers('Authorization') authorization: string,
+        @Body() createPaymentMethodDTO: CreatePaymentMethodDTO) {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             // throw new UnauthorizedException('Authorization header is missing or invalid');
             throw new CustomException('Authorization header is missing or invalid');
         }
-        const newSize = {
-            ...createSizeDTO,
+        const newPaymentMethod = {
+            ...createPaymentMethodDTO,
         };
-        return this.sizeService.createSize(newSize);
+        return this.paymentmethodService.createPaymentMethod(newPaymentMethod);
     }
+
     @Post('update/:id')
     @UsePipes(new ValidationPipe())
-    async updateSize(@Param('id') id: string,
+    async updatePaymentMethod(@Param('id') id: string,
         @Headers('Authorization') authorization: string,
-        @Body() updateSizeDTO: CreateSizeDTO,) {
+        @Body() updatePaymentMethodDTO: CreatePaymentMethodDTO,) {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             // throw new UnauthorizedException('Authorization header is missing or invalid');
             throw new CustomException('Authorization header is missing or invalid');
         }
-        const updateSize = {
-            ...updateSizeDTO,
+        const updatePaymentMethod = {
+            ...updatePaymentMethodDTO,
             _id: new ObjectId(id),
         }
-        return this.sizeService.updateSize(updateSize);
+        return this.paymentmethodService.updatePaymentMethod(updatePaymentMethod);
     }
+
     @Post('lock/:id')
     @UsePipes(new ValidationPipe())
-    async lockSize(@Param('id') id: string,
+    async lockPaymentMethod(@Param('id') id: string,
         @Headers('Authorization') authorization: string) {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             throw new CustomException('Authorization header is missing or invalid');
         }
-        return this.sizeService.lockSize(id);
+        return this.paymentmethodService.lockPaymentMethod(id);
     }
     @Post('restore/:id')
     @UsePipes(new ValidationPipe())
-    async restoreSize(@Param('id') id: string,
+    async restorePaymentMethod(@Param('id') id: string,
         @Headers('Authorization') authorization: string) {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             throw new CustomException('Authorization header is missing or invalid');
         }
-        return this.sizeService.restoreSize(id);
+        return this.paymentmethodService.restorePaymentMethod(id);
     }
-    @Get('allsize')
+    @Get('allpaymentmethod')
     @UsePipes(new ValidationPipe())
-    async getAllSize(@Headers('Authorization') authorization: string) {
+    async getAllPaymentMethod(@Headers('Authorization') authorization: string) {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             throw new CustomException('Authorization header is missing or invalid');
         }
-        return this.sizeService.getAllSize();
+        return this.paymentmethodService.getAllPaymentMethod();
     }
-    @Get('allactivesize')
+    @Get('allactivepaymentmethod')
     @UsePipes(new ValidationPipe())
-    async getAllActiveSize(@Headers('Authorization') authorization: string) {
+    async getAllActivePaymentMethod(@Headers('Authorization') authorization: string) {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             throw new CustomException('Authorization header is missing or invalid');
         }
-        return this.sizeService.getAllActiveSize();
+        return this.paymentmethodService.getAllActivePaymentMethod();
     }
     @Get('detail/:id')
     @UsePipes(new ValidationPipe())
-    async getDetailSize(@Param('id') id: string,
+    async getDetailPaymentMethod(@Param('id') id: string,
         @Headers('Authorization') authorization: string) {
         if (!authorization || !authorization.startsWith('Bearer ')) {
             throw new CustomException('Authorization header is missing or invalid');
         }
-        return this.sizeService.getDetailSize(id);
+        return this.paymentmethodService.getDetailPaymentMethod(id);
     }
 }

@@ -103,4 +103,15 @@ export class NewsService {
             throw new CustomException(error.message);
         }
     }
+    async getDetailNews(id : string){
+        try {
+            const db = this.databaseService.getDb()
+            const getDetailNews = await db.collection('news').findOne({
+                _id : new ObjectId(id),
+            });
+            return getDetailNews;
+        } catch (error) {
+            throw new CustomException(error.message)
+        }
+    }
 }

@@ -104,6 +104,17 @@ export class CategoryService {
             throw new CustomException(error.message);
         }
     }
+    async getDetailCate(id : string){
+        try {
+            const db = this.databaseService.getDb()
+            const getDetailCate = await db.collection('category').findOne({
+                _id : new ObjectId(id),
+            });
+            return getDetailCate;
+        } catch (error) {
+            throw new CustomException(error.message)
+        }
+    }
     async searchCate(keyword: string){
         try {
             const db = this.databaseService.getDb();

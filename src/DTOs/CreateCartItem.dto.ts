@@ -1,7 +1,7 @@
 import { IsNumber, IsOptional, IsString } from "class-validator";
 import { ObjectId } from "mongodb";
 
-export class CartItemDTO {
+export class CreateCartItemDTO {
     @IsString()
     @IsOptional()
     _id : ObjectId

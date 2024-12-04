@@ -236,6 +236,8 @@ export class ProductitemService {
                         quantity: 1,
                         status: 1,
                         brandName: '$brand.brandName', // Lấy thông tin brandName từ mảng brand
+                        country:'$brand.country',
+                        descriptionBrand: '$brand.description',
                         productName: '$product.productName',
                     },
                 },
@@ -322,6 +324,17 @@ export class ProductitemService {
                 },
             ]).toArray();
             return result;
+        } catch (error) {
+            throw new CustomException(error.message)
+        }
+    }
+    async getDetailProductItem(id : string){
+        try {
+            const db = this.databaseService.getDb()
+            const getDetailProductItem = await db.collection('productitem').findOne({
+                _id : new ObjectId(id),
+            });
+            return getDetailProductItem;
         } catch (error) {
             throw new CustomException(error.message)
         }

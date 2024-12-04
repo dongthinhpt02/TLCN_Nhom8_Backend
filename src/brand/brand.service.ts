@@ -104,6 +104,17 @@ export class BrandService {
             throw new CustomException(error.message);
         }
     }
+    async getDetailBrand(id : string){
+        try {
+            const db = this.databaseService.getDb()
+            const getDetailBrand = await db.collection('brand').findOne({
+                _id : new ObjectId(id),
+            });
+            return getDetailBrand;
+        } catch (error) {
+            throw new CustomException(error.message)
+        }
+    }
     async searchBrand(keyword: string){
         try {
             const db = this.databaseService.getDb();

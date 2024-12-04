@@ -120,4 +120,15 @@ export class ProductService {
             throw new CustomException(error.message);
         }
     }
+    async getDetailProduct(id : string){
+        try {
+            const db = this.databaseService.getDb()
+            const getDetailProduct = await db.collection('product').findOne({
+                _id : new ObjectId(id),
+            });
+            return getDetailProduct;
+        } catch (error) {
+            throw new CustomException(error.message)
+        }
+    }
 }
