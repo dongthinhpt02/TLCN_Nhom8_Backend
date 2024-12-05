@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Header, Headers, HttpStatus, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Header, Headers, HttpStatus, Param, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateCartDTO, CreateTokenDTO, CreateUserDTO } from 'src/DTOs/CreateUsers.Dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
@@ -51,5 +51,9 @@ export class AuthController {
         return this.authService.googleLogin(req.user);
     }
 
-   
+    @Get('detailuser/:id')
+    async getUserById(@Param('id') id : string,
+    @Headers('Authorization') authorization: string){
+        return this.authService.getUserByUserId(id)
+    }
 }

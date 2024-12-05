@@ -279,4 +279,16 @@ export class AuthService {
       throw error;
     }
   }
+  async getUserByUserId(id : string){
+    try {
+      const db = this.databaseService.getDb()
+      const findUserById = await db.collection('users').findOne({_id : new ObjectId(id)})
+      if(!findUserById){
+        throw new CustomException('Không tìm thấy User')
+      }
+      return findUserById;
+    } catch (error) {
+      throw new CustomException(error.message)
+    }
+  }
 }
