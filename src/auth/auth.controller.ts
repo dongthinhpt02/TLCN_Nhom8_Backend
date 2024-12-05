@@ -6,8 +6,9 @@ import { LoginDTO } from 'src/DTOs/LoginUsers.dto';
 import { GoogleGuard } from './google.guard';
 import { JwtStrategy } from './jwt.strategy';
 import { STATUS_CODES } from 'http';
-import { ObjectId} from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { any } from 'joi';
+import { CustomException } from 'src/exception/CustomException';
 
 @Controller('auth')
 export class AuthController {
@@ -52,8 +53,12 @@ export class AuthController {
     }
 
     @Get('detailuser/:id')
-    async getUserById(@Param('id') id : string,
-    @Headers('Authorization') authorization: string){
+    async getUserById(@Param('id') id: string,
+        @Headers('Authorization') authorization: string) {
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            // throw new UnauthorizedException('Authorization header is missing or invalid');
+            throw new CustomException('Authorization header is missing or invalid');
+        }
         return this.authService.getUserByUserId(id)
     }
 }
